@@ -7,6 +7,8 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
+import Toast from "react-bootstrap/Toast";
+import "../App.css";
 
 class Words extends React.Component {
   //Test to see if we can connect to backend server
@@ -18,15 +20,16 @@ class Words extends React.Component {
 
   //variables we want to store to mongodb
   constructor(props) {
-    let data1 = []
+    let data = [];
     super(props);
     this.state = {
       word: "",
       defintion: "",
-      words: data1,
+      words: data,
     };
   }
 
+  //retrieves list of words from database on page load
   componentDidMount() {
     axios.get("/words").then((res) => {
       let terms = res.data;
@@ -37,22 +40,29 @@ class Words extends React.Component {
       });
     });
   }
+  //displays each word in the database onto a card
   wordsList() {
     return this.state.words.map((word) => {
-        return (
-            <Col md="auto">
-            <Card style={{ width: "18rem" }}>
-              <Card.Body>
-                <Card.Title>{word.word}</Card.Title>
-                {/* <Card.Subtitle className="mb-2 text-muted">
+      return (
+        <Col xs="auto" md="auto">
+          <Card
+            style={{ width: "18rem", height: "14rem" }}
+            bg="dark"
+            text="light"
+            border="primary"
+            className="mb-3"
+          >
+            <Card.Header className="border-0">{word.word}</Card.Header>
+            <Card.Body className="Flashcards">
+              {/* <Card.Subtitle className="mb-2 text-muted">
                   Card Subtitle
                 </Card.Subtitle> */}
-                <Card.Text>{word.defintion}</Card.Text>
-              </Card.Body>
-            </Card>
-          </Col>
-        )
-    })
+              <Card.Text>{word.defintion}</Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
+      );
+    });
   }
   //When user clicks sumbit, the word and defintion are transfered to to the backend
   //The backend then transfers it to the database
@@ -60,61 +70,71 @@ class Words extends React.Component {
     e.preventDefault();
 
     let something = {
-        word: this.state.word, 
-        defintion: this.state.defintion
-    }
+      word: this.state.word,
+      defintion: this.state.defintion,
+    };
 
-    axios
-      .post("words/add", something)
-      .then(this.setState({
-          words: this.state.words.concat(something),
-        }));
+    axios.post("words/add", something).then(
+      this.setState({
+        words: this.state.words.concat(something),
+      })
+    );
 
-    e.target.reset();
+    e.target.reset(); //resets the form to placeholders
   };
+
 
   render() {
     return (
-      <Container>
-        <Row className="justify-content-md-center">
-          <Col>
-            <Form onSubmit={this.submitHandler}>
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>Word</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter word"
-                  onChange={(e) => {
-                    this.setState({
-                      word: e.target.value,
-                    });
-                    // console.log(this.state.word);
-                  }}
-                />
-              </Form.Group>
+      <Container fluid className="App">
+        <Container>
+          <Row className="Cardform">
+            <Col>
+            <div className="CardformTitle">Add a card</div>
+              <Form onSubmit={this.submitHandler}>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                  {/* <Form.Label>Word</Form.Label> */}
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter word"
+                    onChange={(e) => {
+                      this.setState({
+                        word: e.target.value,
+                      });
+                      // console.log(this.state.word);
+                    }}
+                  />
+                </Form.Group>
 
-              <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Label>Definition</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Password"
-                  onChange={(e) => {
-                    this.setState({
-                      defintion: e.target.value,
-                    });
-                    //console.log(this.state.defintion);
-                  }}
-                />
-              </Form.Group>
-              <Button variant="primary" type="submit">
-                Create Card
-              </Button>
-            </Form>
-          </Col>
-        </Row>
-        <Row>
-        {this.wordsList()}
-        </Row>
+                <Form.Group className="mb-3" controlId="formBasicPassword">
+                  {/* <Form.Label>Definition</Form.Label> */}
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter Defintion"
+                    onChange={(e) => {
+                      this.setState({
+                        defintion: e.target.value,
+                      });
+                      //console.log(this.state.defintion);
+                    }}
+                  />
+                </Form.Group>
+                <Button
+                  variant="primary"
+                  type="submit"
+                >
+                  Create Card
+                </Button>
+              </Form>
+            </Col>
+          </Row>
+
+          <Row className="Flashcards">
+
+          <div className="FlashcardsTitle">Word List</div>
+            {this.wordsList()}
+          </Row>
+        </Container>
       </Container>
     );
   }
