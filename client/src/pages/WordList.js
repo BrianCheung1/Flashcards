@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { useNavigate } from "react-router";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -7,16 +6,11 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
-import Toast from "react-bootstrap/Toast";
 import "../App.css";
+import { getTest, getWords } from "../api/api";
+import {Cardform} from "../components/Cardform"
 
-class Words extends React.Component {
-  //Test to see if we can connect to backend server
-  //   componentDidMount() {
-  //     axios.get("/test").then((res) => {
-  //       console.log(`Connected to backend Data:`, res);
-  //     });
-  //   }
+class WordList extends React.Component {
 
   //variables we want to store to mongodb
   constructor(props) {
@@ -26,14 +20,14 @@ class Words extends React.Component {
       word: "",
       defintion: "",
       words: data,
+      title: "",
     };
   }
 
   //retrieves list of words from database on page load
   componentDidMount() {
-    axios.get("/words").then((res) => {
-      let terms = res.data;
-      terms.map((word) => {
+    getWords().then((res) => {
+      res.map((word) => {
         this.setState({
           words: this.state.words.concat(word),
         });
@@ -60,15 +54,18 @@ class Words extends React.Component {
               <Card.Text>{word.defintion}</Card.Text>
             </Card.Body>
             <Card.Footer className="border-0">
-              <Button variant="link" 
-              onClick={()=> {
-                axios.delete(`/words/${word._id}`)
-                this.state.words.splice(word, 1)
-                this.setState({
-                    words: this.state.words
-                })
-              }}
-              >Link</Button>
+              <Button
+                variant="link"
+                onClick={() => {
+                  axios.delete(`/words/${word._id}`);
+                  this.state.words.splice(word, 1);
+                  this.setState({
+                    words: this.state.words,
+                  });
+                }}
+              >
+                Delete
+              </Button>
             </Card.Footer>
           </Card>
         </Col>
@@ -94,9 +91,14 @@ class Words extends React.Component {
     e.target.reset(); //resets the form to placeholders
   };
 
+  setStateOfParent = (newTitle) => {
+    this.setState({title: newTitle});
+  }
+
   render() {
     return (
       <Container fluid className="App">
+        <Cardform setStateOfParent = {this.setStateOfParent}></Cardform>
         <Container>
           <Row className="Cardform">
             <Col>
@@ -146,4 +148,4 @@ class Words extends React.Component {
   }
 }
 
-export default Words;
+export default WordList;

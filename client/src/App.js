@@ -4,13 +4,13 @@ import React from "react";
 import { Route, Routes } from "react-router-dom";
 
 // We import all the components we need in our app
-import Words from "./components/Words";
+import WordList from "./pages/WordList";
 
 const App = () => {
     return (
       <div>
         <Routes>
-          <Route path="/" element={<Words/>} />
+          <Route path="/" element={<WordList/>} />
         </Routes>
       </div>
     );
