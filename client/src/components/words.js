@@ -59,6 +59,9 @@ class Words extends React.Component {
                 </Card.Subtitle> */}
               <Card.Text>{word.defintion}</Card.Text>
             </Card.Body>
+            <Card.Footer className="border-0">
+              <Button variant="link">Link</Button>
+            </Card.Footer>
           </Card>
         </Col>
       );
@@ -83,14 +86,13 @@ class Words extends React.Component {
     e.target.reset(); //resets the form to placeholders
   };
 
-
   render() {
     return (
       <Container fluid className="App">
         <Container>
           <Row className="Cardform">
             <Col>
-            <div className="CardformTitle">Add a card</div>
+              <div className="CardformTitle">Add a card</div>
               <Form onSubmit={this.submitHandler}>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
                   {/* <Form.Label>Word</Form.Label> */}
@@ -119,10 +121,7 @@ class Words extends React.Component {
                     }}
                   />
                 </Form.Group>
-                <Button
-                  variant="primary"
-                  type="submit"
-                >
+                <Button variant="primary" type="submit">
                   Create Card
                 </Button>
               </Form>
@@ -130,8 +129,7 @@ class Words extends React.Component {
           </Row>
 
           <Row className="Flashcards">
-
-          <div className="FlashcardsTitle">Word List</div>
+            <div className="FlashcardsTitle">Word List</div>
             {this.wordsList()}
           </Row>
         </Container>
