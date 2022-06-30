@@ -7,6 +7,8 @@ app.use(cors());
 app.use(express.json());
 //get driver connection
 const dbo = require("./db/conn");
+// This help convert the id from string to ObjectId for the _id.
+const ObjectId = require("mongodb").ObjectId;
 
 // create a test GET route
 app.get("/test", (req, res) => {
@@ -49,7 +51,7 @@ app.delete("/words/:id", (req, res) =>{
     db_connect.collection("words").deleteOne(myquery, (err, obj) => {
         if(err) throw err;
         console.log("1 word deleted")
-        response.json(obj)
+        res.json(obj)
     })
 }) 
 

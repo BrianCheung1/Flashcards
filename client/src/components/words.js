@@ -60,7 +60,15 @@ class Words extends React.Component {
               <Card.Text>{word.defintion}</Card.Text>
             </Card.Body>
             <Card.Footer className="border-0">
-              <Button variant="link">Link</Button>
+              <Button variant="link" 
+              onClick={()=> {
+                axios.delete(`/words/${word._id}`)
+                this.state.words.splice(word, 1)
+                this.setState({
+                    words: this.state.words
+                })
+              }}
+              >Link</Button>
             </Card.Footer>
           </Card>
         </Col>
