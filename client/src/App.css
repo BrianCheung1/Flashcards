@@ -34,7 +34,15 @@
 }
 
 .FlashcardsWord {
+    /*change min height of card header so overflow doesnt affect smaller words*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 80px;
+
     font-size: 30px;
+    word-break: break-all;
+    overflow: auto;
 }
 
 .FlashcardsDefinition {
@@ -42,6 +50,11 @@
     justify-content: center;
     align-items: center;
     font-size: 20px;
+
+    /*if defintion is larger than card size add scroll*/
+    word-break: break-all;
+    overflow: auto;
+    min-height: 80px;
 }
 
 .CardformTitle{

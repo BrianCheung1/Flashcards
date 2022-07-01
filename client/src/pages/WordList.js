@@ -1,14 +1,11 @@
 import React from "react";
-import axios from "axios";
-import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Form from "react-bootstrap/Form";
-import Card from "react-bootstrap/Card";
 import "../App.css";
-import { getTest, getWords, createWords } from "../api/api";
+import { getTest, getWords, createWords, deleteWords } from "../api/api";
 import { Cardform } from "../components/Cardform";
+import { Flashcards } from "../components/Flashcards";
 
 class WordList extends React.Component {
   //variables we want to store to mongodb
@@ -30,49 +27,6 @@ class WordList extends React.Component {
           words: this.state.words.concat(word),
         });
       });
-    });
-  }
-
-  //displays each word in the database onto a card
-  wordsList() {
-    return this.state.words.map((word) => {
-      return (
-        <Col xs="auto" md="auto">
-          <Card
-          style={{width:"30rem", height:"20rem"}}
-            bg="dark"
-            text="light"
-            border="primary"
-            className="mb-3 Flashcard"
-          >
-            <Card.Header className="border-0 FlashcardsWord">
-              {word.word}
-            </Card.Header>
-            <Card.Body className="FlashcardsDefinition">
-              {/* <Card.Subtitle className="mb-2 text-muted">
-                  Card Subtitle
-                </Card.Subtitle> */}
-              <Card.Text>
-                {word.definition}
-              </Card.Text>
-            </Card.Body>
-            <Card.Footer className="border-0">
-              <Button
-                variant="link"
-                onClick={() => {
-                  axios.delete(`/words/${word._id}`);
-                  this.state.words.splice(word, 1);
-                  this.setState({
-                    words: this.state.words,
-                  });
-                }}
-              >
-                Delete
-              </Button>
-            </Card.Footer>
-          </Card>
-        </Col>
-      );
     });
   }
 
@@ -99,6 +53,13 @@ class WordList extends React.Component {
     });
   };
 
+  //sets the state of words called by FlashCards component
+  setStateofWordsParent = (newWords) => {
+    this.setState({
+      words: newWords,
+    });
+  };
+
   render() {
     return (
       <Container fluid className="App">
@@ -115,11 +76,14 @@ class WordList extends React.Component {
           </Col>
         </Row>
         <Row>
-            <Row>
+          <Row>
             <div className="FlashcardsTitle">Word List</div>
-            </Row>
-            <Row className="AllFlashcards">
-          {this.wordsList()}
+          </Row>
+          <Row className="AllFlashcards" xs="auto" md="auto">
+            <Flashcards
+              words={this.state.words}
+              setStateOfWordsAfterDelete={this.setStateofWordsParent}
+            ></Flashcards>
           </Row>
         </Row>
       </Container>
