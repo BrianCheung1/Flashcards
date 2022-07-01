@@ -1,42 +1,58 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import axios from "axios";
 
 function Cardform(props) {
-  const item = props.item;
   const wordWord = props.word;
-  const worddefintion = props.defintion;
+  const wordDefinition = props.definition;
 
-  function handleChange(event){
-    props.setStateOfParent("Geeks For Geeks");
+  //changes the word state of the parent class
+  function handleWordChange(word) {
+    props.setStateOfWordInParent(word);
+  }
+
+  //changes the definition state of the aprent class
+  function handleDefinitionChange(definition) {
+    props.setStateOfDefinitionInParent(definition);
+  }
+
+  //When user clicks sumbit, the word and definition are transfered to to the backend
+  //The backend then transfers it to the database
+  function handleWordsSubmit(e) {
+    e.preventDefault();
+    let newWords = {
+      word: wordWord,
+      definition: wordDefinition,
+    };
+    props.setStateOfWordsInParent(newWords);
+    e.target.reset();
   }
 
   return (
-    <Form>
+    <Form onSubmit={(e) => handleWordsSubmit(e)}>
       <Form.Group className="mb-3" controlId="formBasicEmail">
-        <Form.Label>Email address</Form.Label>
+        {/* <Form.Label>Word</Form.Label> */}
         <Form.Control
-          type="email"
-          placeholder="Enter email"
+          type="text"
+          placeholder="Enter word"
           onChange={(e) => {
-            handleChange(e.target.value)
+            handleWordChange(e.target.value);
           }}
         />
-        <Form.Text className="text-muted">
-          We'll never share your email with anyone else.
-        </Form.Text>
       </Form.Group>
 
       <Form.Group className="mb-3" controlId="formBasicPassword">
-        <Form.Label>Password</Form.Label>
-        <Form.Control type="password" placeholder="Password" />
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="formBasicCheckbox">
-        <Form.Check type="checkbox" label="Check me out" />
+        {/* <Form.Label>Definition</Form.Label> */}
+        <Form.Control
+          type="text"
+          placeholder="Enter Defintion"
+          onChange={(e) => {
+            handleDefinitionChange(e.target.value);
+          }}
+        />
       </Form.Group>
       <Button variant="primary" type="submit">
-        Submit
+        Create Card
       </Button>
     </Form>
   );

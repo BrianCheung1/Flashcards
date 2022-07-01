@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import axios from "axios";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -7,20 +7,18 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import "../App.css";
-import { getTest, getWords } from "../api/api";
-import {Cardform} from "../components/Cardform"
+import { getTest, getWords, createWords } from "../api/api";
+import { Cardform } from "../components/Cardform";
 
 class WordList extends React.Component {
-
   //variables we want to store to mongodb
   constructor(props) {
     let data = [];
     super(props);
     this.state = {
       word: "",
-      defintion: "",
+      definition: "",
       words: data,
-      title: "",
     };
   }
 
@@ -34,6 +32,7 @@ class WordList extends React.Component {
       });
     });
   }
+
   //displays each word in the database onto a card
   wordsList() {
     return this.state.words.map((word) => {
@@ -51,7 +50,7 @@ class WordList extends React.Component {
               {/* <Card.Subtitle className="mb-2 text-muted">
                   Card Subtitle
                 </Card.Subtitle> */}
-              <Card.Text>{word.defintion}</Card.Text>
+              <Card.Text>{word.definition}</Card.Text>
             </Card.Body>
             <Card.Footer className="border-0">
               <Button
@@ -72,69 +71,44 @@ class WordList extends React.Component {
       );
     });
   }
-  //When user clicks sumbit, the word and defintion are transfered to to the backend
-  //The backend then transfers it to the database
-  submitHandler = (e) => {
-    e.preventDefault();
 
-    let something = {
-      word: this.state.word,
-      defintion: this.state.defintion,
-    };
-
-    axios.post("words/add", something).then(
+  //sets the state of words called by Cardform component
+  setStateOfWordsParent = (newWords) => {
+    createWords(newWords).then(
       this.setState({
-        words: this.state.words.concat(something),
+        words: this.state.words.concat(newWords),
       })
     );
-
-    e.target.reset(); //resets the form to placeholders
   };
 
-  setStateOfParent = (newTitle) => {
-    this.setState({title: newTitle});
-  }
+  //sets the state of word called by Cardform component
+  setStateOfWordParent = (newWord) => {
+    this.setState({
+      word: newWord,
+    });
+  };
+
+  //sets the state of defintion called by Cardform component
+  setStatOfDefinitionParent = (newDefinition) => {
+    this.setState({
+      definition: newDefinition,
+    });
+  };
 
   render() {
     return (
       <Container fluid className="App">
-        <Cardform setStateOfParent = {this.setStateOfParent}></Cardform>
         <Container>
           <Row className="Cardform">
             <Col>
               <div className="CardformTitle">Add a card</div>
-              <Form onSubmit={this.submitHandler}>
-                <Form.Group className="mb-3" controlId="formBasicEmail">
-                  {/* <Form.Label>Word</Form.Label> */}
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter word"
-                    onChange={(e) => {
-                      this.setState({
-                        word: e.target.value,
-                      });
-                      // console.log(this.state.word);
-                    }}
-                  />
-                </Form.Group>
-
-                <Form.Group className="mb-3" controlId="formBasicPassword">
-                  {/* <Form.Label>Definition</Form.Label> */}
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter Defintion"
-                    onChange={(e) => {
-                      this.setState({
-                        defintion: e.target.value,
-                      });
-                      //console.log(this.state.defintion);
-                    }}
-                  />
-                </Form.Group>
-                <Button variant="primary" type="submit">
-                  Create Card
-                </Button>
-              </Form>
+              <Cardform
+                setStateOfWordInParent={this.setStateOfWordParent} //setStateofWordInparent is a prop in Cardform that takes in value from handleWordChange
+                setStateOfDefinitionInParent={this.setStatOfDefinitionParent} //setStateofDefintionInparent is a prop in Cardform that takes in value from handleDefintionChange
+                word={this.state.word} //word is a prop in Cardform it takes in a value this.state.word to be used in Cardform
+                definition={this.state.definition} //defintion is a prop in Cardform it takes in a value this.state.definition to be used in Cardform
+                setStateOfWordsInParent={this.setStateOfWordsParent} //setStateofWordsInParent is a prop in Cardform that take sin value from handleWordsSubmit
+              ></Cardform>
             </Col>
           </Row>
 
