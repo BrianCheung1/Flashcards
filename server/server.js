@@ -37,7 +37,6 @@ app.post("/words/add", (req, response) => {
         word: req.body.word,
         definition: req.body.definition,
     };
-    console.log(myobj)
     db_connect.collection("words").insertOne(myobj, (err, res)=>{
         if (err) throw err;
         console.log("1 word added")

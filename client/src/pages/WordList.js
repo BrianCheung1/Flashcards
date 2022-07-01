@@ -39,18 +39,22 @@ class WordList extends React.Component {
       return (
         <Col xs="auto" md="auto">
           <Card
-            style={{ width: "18rem", height: "14rem" }}
+          style={{width:"30rem", height:"20rem"}}
             bg="dark"
             text="light"
             border="primary"
-            className="mb-3"
+            className="mb-3 Flashcard"
           >
-            <Card.Header className="border-0">{word.word}</Card.Header>
-            <Card.Body className="Flashcards">
+            <Card.Header className="border-0 FlashcardsWord">
+              {word.word}
+            </Card.Header>
+            <Card.Body className="FlashcardsDefinition">
               {/* <Card.Subtitle className="mb-2 text-muted">
                   Card Subtitle
                 </Card.Subtitle> */}
-              <Card.Text>{word.definition}</Card.Text>
+              <Card.Text>
+                {word.definition}
+              </Card.Text>
             </Card.Body>
             <Card.Footer className="border-0">
               <Button
@@ -98,25 +102,26 @@ class WordList extends React.Component {
   render() {
     return (
       <Container fluid className="App">
-        <Container>
-          <Row className="Cardform">
-            <Col>
-              <div className="CardformTitle">Add a card</div>
-              <Cardform
-                setStateOfWordInParent={this.setStateOfWordParent} //setStateofWordInparent is a prop in Cardform that takes in value from handleWordChange
-                setStateOfDefinitionInParent={this.setStatOfDefinitionParent} //setStateofDefintionInparent is a prop in Cardform that takes in value from handleDefintionChange
-                word={this.state.word} //word is a prop in Cardform it takes in a value this.state.word to be used in Cardform
-                definition={this.state.definition} //defintion is a prop in Cardform it takes in a value this.state.definition to be used in Cardform
-                setStateOfWordsInParent={this.setStateOfWordsParent} //setStateofWordsInParent is a prop in Cardform that take sin value from handleWordsSubmit
-              ></Cardform>
-            </Col>
-          </Row>
-
-          <Row className="Flashcards">
+        <Row className="Cardform">
+          <Col md={6}>
+            <div className="CardformTitle">Add a card</div>
+            <Cardform
+              setStateOfWordInParent={this.setStateOfWordParent} //setStateofWordInparent is a prop in Cardform that takes in value from handleWordChange
+              setStateOfDefinitionInParent={this.setStatOfDefinitionParent} //setStateofDefintionInparent is a prop in Cardform that takes in value from handleDefintionChange
+              word={this.state.word} //word is a prop in Cardform it takes in a value this.state.word to be used in Cardform
+              definition={this.state.definition} //defintion is a prop in Cardform it takes in a value this.state.definition to be used in Cardform
+              setStateOfWordsInParent={this.setStateOfWordsParent} //setStateofWordsInParent is a prop in Cardform that take sin value from handleWordsSubmit
+            ></Cardform>
+          </Col>
+        </Row>
+        <Row>
+            <Row>
             <div className="FlashcardsTitle">Word List</div>
-            {this.wordsList()}
+            </Row>
+            <Row className="AllFlashcards">
+          {this.wordsList()}
           </Row>
-        </Container>
+        </Row>
       </Container>
     );
   }
