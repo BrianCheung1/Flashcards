@@ -28,6 +28,17 @@ app.get("/words", (req, res)=> {
    });
 })
 
+app.get("/word/:id", (req, res) =>{
+    let db_connect = dbo.getDb();
+    let myquery = {_id: ObjectId(req.params.id)};
+    db_connect.collection("words").findOne(myquery, (err, obj) => {
+        if(err) throw err;
+        console.log("1 word found")
+        res.json(obj)
+    })
+})
+
+
 //this helps create a new word
 app.post("/words/add", (req, response) => {
     console.log(req.body)
@@ -46,6 +57,7 @@ app.post("/words/add", (req, response) => {
 })
 
 app.delete("/words/:id", (req, res) =>{
+  console.log(req.params.id)
     let db_connect = dbo.getDb();
     let myquery = {_id: ObjectId(req.params.id)};
     db_connect.collection("words").deleteOne(myquery, (err, obj) => {

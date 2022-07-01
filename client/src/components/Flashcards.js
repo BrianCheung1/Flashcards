@@ -26,7 +26,7 @@ function Flashcards(props) {
             border="primary"
             className="mb-3"
           >
-            <Card.Header className="border-0 FlashcardsWord">
+            <Card.Header className="border-0 bg-dark FlashcardsWord">
               {word.word}
             </Card.Header>
             <Card.Body className="FlashcardsDefinition">
@@ -35,12 +35,12 @@ function Flashcards(props) {
                 </Card.Subtitle> */}
               <Card.Text>{word.definition}</Card.Text>
             </Card.Body>
-            <Card.Footer className="border-0">
+            <Card.Footer className="border-0 bg-dark">
               <Button
                 variant="link"
                 onClick={() => {
                   deleteWords(word._id);
-                  listOfWords.splice(word, 1);
+                  listOfWords.splice(listOfWords.indexOf(word), 1);
                   handleDeleteWord(listOfWords)
                 }}
               >

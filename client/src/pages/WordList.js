@@ -3,9 +3,16 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import "../App.css";
-import { getTest, getWords, createWords, deleteWords } from "../api/api";
+import {
+  getTest,
+  getWords,
+  createWords,
+  deleteWords,
+  getWord,
+} from "../api/api";
 import { Cardform } from "../components/Cardform";
 import { Flashcards } from "../components/Flashcards";
+import axios from "axios";
 
 class WordList extends React.Component {
   //variables we want to store to mongodb
@@ -31,12 +38,16 @@ class WordList extends React.Component {
   }
 
   //sets the state of words called by Cardform component
+  //creates word with backend api
+  //gets the database data with ID component and add it to state
   setStateOfWordsParent = (newWords) => {
-    createWords(newWords).then(
-      this.setState({
-        words: this.state.words.concat(newWords),
-      })
-    );
+    createWords(newWords).then((res) => {
+      getWord(res.data.insertedId).then((res) => {
+        this.setState({
+          words: this.state.words.concat(res.data),
+        });
+      });
+    });
   };
 
   //sets the state of word called by Cardform component
@@ -54,7 +65,7 @@ class WordList extends React.Component {
   };
 
   //sets the state of words called by FlashCards component
-  setStateofWordsParent = (newWords) => {
+  setStateofWordsParentDelete = (newWords) => {
     this.setState({
       words: newWords,
     });
@@ -82,7 +93,7 @@ class WordList extends React.Component {
           <Row className="AllFlashcards" xs="auto" md="auto">
             <Flashcards
               words={this.state.words}
-              setStateOfWordsAfterDelete={this.setStateofWordsParent}
+              setStateOfWordsAfterDelete={this.setStateofWordsParentDelete}
             ></Flashcards>
           </Row>
         </Row>

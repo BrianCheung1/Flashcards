@@ -25,6 +25,7 @@ const getWords = async () => {
 const createWords = async (newWords) => {
   try {
     const response = await axios.post("/words/add", newWords);
+
     return response;
   } catch (e) {
     console.log(e);
@@ -34,9 +35,19 @@ const createWords = async (newWords) => {
 //front end api called to delete a word to backend which deletes an element based on id
 const deleteWords = async (wordId) => {
   try {
-    const response = await axios.delete(`/words/${wordId}`);
+    await axios.delete(`/words/${wordId}`);
   } catch (e) {
     console.log(e);
   }
 };
-export { getWords, createWords, deleteWords };
+
+//front end api called to get a word from backend
+const getWord = async (newWordId) => {
+  try {
+    const response = await axios.get(`/word/${newWordId}`);
+    return response;
+  } catch (e) {
+    console.log(e);
+  }
+};
+export { getWords, createWords, deleteWords, getWord };

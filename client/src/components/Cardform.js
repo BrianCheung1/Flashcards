@@ -16,6 +16,9 @@ function Cardform(props) {
     props.setStateOfDefinitionInParent(definition);
   }
 
+  function handleWordsChange(words){
+    props.setStateOfWordsInParent(words);
+  }
   //When user clicks sumbit, the word and definition are transfered to to the backend
   //The backend then transfers it to the database
   function handleWordsSubmit(e) {
@@ -24,7 +27,7 @@ function Cardform(props) {
       word: wordWord,
       definition: wordDefinition,
     };
-    props.setStateOfWordsInParent(newWords);
+    handleWordsChange(newWords)
     e.target.reset();
   }
 
