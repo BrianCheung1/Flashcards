@@ -2,6 +2,7 @@ import React from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/Button";
 import "../App.css";
 import {
   getTest,
@@ -65,9 +66,9 @@ class WordList extends React.Component {
   };
 
   //sets the state of words called by FlashCards component
-  setStateofWordsParentDelete = (newWords) => {
+  setStateofWordsParentDelete = (wordWords) => {
     this.setState({
-      words: newWords,
+      words: wordWords,
     });
   };
 
@@ -91,10 +92,19 @@ class WordList extends React.Component {
             <div className="FlashcardsTitle">Word List</div>
           </Row>
           <Row className="AllFlashcards" xs="auto" md="auto">
-            <Flashcards
-              words={this.state.words}
-              setStateOfWordsAfterDelete={this.setStateofWordsParentDelete}
-            ></Flashcards>
+            {this.state.words.map((word) => {
+              return (
+                <Flashcards
+                  key={word._id}
+                  word={word.word}
+                  definition={word.definition}
+                  id={word._id}
+                  words={this.state.words}
+                  wordData={word}
+                  setStateOfWordsAfterDelete={this.setStateofWordsParentDelete}
+                ></Flashcards>
+              );
+            })}
           </Row>
         </Row>
       </Container>
