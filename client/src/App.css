@@ -13,7 +13,8 @@
   }
 
 .Cardform {
-    margin-bottom: 3vh;
+    padding-top: 80px;
+    padding-bottom: 50px;
     justify-content: center;
 }
 
@@ -62,6 +63,16 @@
     font-size: 60px;
 }   
 
-.backgroundTest{
-    background-color: yellow;
+.NavbarBackground{
+    background-color: #0a092d;
 }
+
+.navbar .navbar-brand {
+    color: #94128A;
+    font-size: 24px;
+}
+
+.ToastBackground {
+    padding-top: 60px;
+}
+

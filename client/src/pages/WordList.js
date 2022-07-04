@@ -13,6 +13,7 @@ import {
 } from "../api/api";
 import { Cardform } from "../components/Cardform";
 import { Flashcards } from "../components/Flashcards";
+import { Navibar } from "../components/Navbar";
 import axios from "axios";
 
 class WordList extends React.Component {
@@ -84,15 +85,16 @@ class WordList extends React.Component {
 
   render() {
     return (
+      
       <Container fluid className="App">
+        
+        <Navibar/>
         <Row className="Cardform">
           <Col md={6}>
             <div className="CardformTitle">Add a card</div>
             <Cardform
               setStateOfWordInParent={this.setStateOfWordParent} //setStateofWordInparent is a prop in Cardform that takes in value from handleWordChange
               setStateOfDefinitionInParent={this.setStatOfDefinitionParent} //setStateofDefintionInparent is a prop in Cardform that takes in value from handleDefintionChange
-              word={this.state.word} //word is a prop in Cardform it takes in a value this.state.word to be used in Cardform
-              definition={this.state.definition} //defintion is a prop in Cardform it takes in a value this.state.definition to be used in Cardform
               setStateOfWordsInParent={this.setStateOfWordsParent} //setStateofWordsInParent is a prop in Cardform that take sin value from handleWordsSubmit
             ></Cardform>
           </Col>

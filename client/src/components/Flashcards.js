@@ -92,7 +92,6 @@ function Flashcards(props) {
               >
                 Edit
               </Button>
-              {wordId}
             </Card.Footer>
           </Card>
         )}
@@ -118,7 +117,8 @@ function Flashcards(props) {
                 Card Subtitle
               </Card.Subtitle> */}
               <Form.Control
-                type="text"
+                as="textarea"
+                rows={5}
                 placeholder={draftDefinition}
                 onChange={(e) => {
                   handleDefinitionChange(e.target.value);

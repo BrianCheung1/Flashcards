@@ -5,19 +5,9 @@ import Toast from "react-bootstrap/Toast";
 import ToastContainer from "react-bootstrap/ToastContainer";
 
 function Cardform(props) {
-  const wordWord = props.word;
-  const wordDefinition = props.definition;
   const [show, setShow] = useState(false);
-
-  //changes the word state of the parent class
-  function handleWordChange(word) {
-    props.setStateOfWordInParent(word);
-  }
-
-  //changes the definition state of the aprent class
-  function handleDefinitionChange(definition) {
-    props.setStateOfDefinitionInParent(definition);
-  }
+  const [testWord, setTestWord] = useState("");
+  const [testDef, setTestDef] = useState("");
 
   function handleWordsChange(words) {
     props.setStateOfWordsInParent(words);
@@ -25,12 +15,15 @@ function Cardform(props) {
   //When user clicks sumbit, the word and definition are transfered to to the backend
   //The backend then transfers it to the database
   function handleWordsSubmit(e) {
+    setShow(true);
     e.preventDefault();
     let newWords = {
-      word: wordWord,
-      definition: wordDefinition,
+      word: testWord,
+      definition: testDef,
     };
     handleWordsChange(newWords);
+    setTestWord("");
+    setTestDef("");
     e.target.reset();
   }
 
@@ -40,9 +33,10 @@ function Cardform(props) {
         {/* <Form.Label>Word</Form.Label> */}
         <Form.Control
           type="text"
+          required
           placeholder="Enter word"
           onChange={(e) => {
-            handleWordChange(e.target.value);
+            setTestWord(e.target.value);
           }}
         />
       </Form.Group>
@@ -50,17 +44,19 @@ function Cardform(props) {
       <Form.Group className="mb-3" controlId="formBasicPassword">
         {/* <Form.Label>Definition</Form.Label> */}
         <Form.Control
-          type="text"
+          as="textarea"
+          rows={5}
+          required
           placeholder="Enter Defintion"
           onChange={(e) => {
-            handleDefinitionChange(e.target.value);
+            setTestDef(e.target.value);
           }}
         />
       </Form.Group>
-      <Button variant="primary" type="submit" onClick={() => setShow(true)}>
+      <Button variant="primary" type="submit">
         Create Card
       </Button>
-      <ToastContainer position="top-end" className="p-3">
+      <ToastContainer position="top-end" className="ToastBackground">
         <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide>
           <Toast.Body>Flashcard Created</Toast.Body>
         </Toast>
