@@ -52,12 +52,14 @@ const getWord = async (newWordId) => {
 };
 
 const updateWord = async (updatedWord) => {
-
   try {
-    const response = await axios.post(`/update-word/${updatedWord.id}`, updatedWord);
-    return response
+    const response = await axios.post(
+      `/update-word/${updatedWord._id}`,
+      updatedWord
+    );
+    return response;
   } catch (e) {
     console.log(e);
   }
-}
+};
 export { getWords, createWords, deleteWords, getWord, updateWord };

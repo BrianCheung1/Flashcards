@@ -72,12 +72,13 @@ class WordList extends React.Component {
     });
   };
 
-  setStateOfWordsParentUpdated = (updatedWord) => {
+  setStateOfWordsParentUpdated = (updatedWord, wordData) => {
     updateWord(updatedWord);
-    getWords().then((res) => {
-      this.setState({
-        words: res,
-      });
+    let prevData = this.state.words;
+    let updatedDataIndex = this.state.words.indexOf(wordData);
+    prevData[updatedDataIndex] = updatedWord;
+    this.setState({
+      words: prevData,
     });
   };
 

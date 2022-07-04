@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-import { deleteWords } from "../api/api";
+import { deleteWords, getWord } from "../api/api";
 import Form from "react-bootstrap/Form";
 
 function Flashcards(props) {
@@ -34,14 +34,14 @@ function Flashcards(props) {
   }
 
   function handleWordsChange(words) {
-    props.setStateOfWordsInParentUpdated(words);
+    props.setStateOfWordsInParentUpdated(words, wordData);
   }
 
   //When user clicks sumbit, the word and definition are transfered to to the backend
   //The backend then transfers it to the database
   function handleWordsSubmit(e) {
     let newWords = {
-      id: wordId,
+      _id: wordId,
       word: draftName,
       definition: draftDefinition,
     };
@@ -54,7 +54,6 @@ function Flashcards(props) {
   function wordList() {
     return (
       //<li key={index}>{word.word}</li>;
-
       <Col xs="auto" md="auto">
         {!isEditing && (
           <Card
@@ -93,6 +92,7 @@ function Flashcards(props) {
               >
                 Edit
               </Button>
+              {wordId}
             </Card.Footer>
           </Card>
         )}
