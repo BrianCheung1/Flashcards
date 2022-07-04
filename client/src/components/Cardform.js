@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
+import Toast from "react-bootstrap/Toast";
+import ToastContainer from "react-bootstrap/ToastContainer";
 
 function Cardform(props) {
   const wordWord = props.word;
   const wordDefinition = props.definition;
+  const [show, setShow] = useState(false);
 
   //changes the word state of the parent class
   function handleWordChange(word) {
@@ -16,7 +19,7 @@ function Cardform(props) {
     props.setStateOfDefinitionInParent(definition);
   }
 
-  function handleWordsChange(words){
+  function handleWordsChange(words) {
     props.setStateOfWordsInParent(words);
   }
   //When user clicks sumbit, the word and definition are transfered to to the backend
@@ -27,7 +30,7 @@ function Cardform(props) {
       word: wordWord,
       definition: wordDefinition,
     };
-    handleWordsChange(newWords)
+    handleWordsChange(newWords);
     e.target.reset();
   }
 
@@ -54,9 +57,14 @@ function Cardform(props) {
           }}
         />
       </Form.Group>
-      <Button variant="primary" type="submit">
+      <Button variant="primary" type="submit" onClick={() => setShow(true)}>
         Create Card
       </Button>
+      <ToastContainer position="top-end" className="p-3">
+        <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide>
+          <Toast.Body>Flashcard Created</Toast.Body>
+        </Toast>
+      </ToastContainer>
     </Form>
   );
 }

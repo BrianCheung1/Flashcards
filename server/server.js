@@ -17,55 +17,71 @@ app.get("/test", (req, res) => {
 });
 
 // Json list of the mongodb
-app.get("/words", (req, res)=> {
-    let db_connect = dbo.getDb("words");
-    db_connect
-   .collection("words")
-   .find()
-   .toArray(function (err, result) {
-     if (err) throw err;
-     res.json(result);
-   });
-})
+app.get("/words", (req, res) => {
+  let db_connect = dbo.getDb("words");
+  db_connect
+    .collection("words")
+    .find()
+    .toArray(function (err, result) {
+      if (err) throw err;
+      res.json(result);
+    });
+});
 
-app.get("/word/:id", (req, res) =>{
-    let db_connect = dbo.getDb();
-    let myquery = {_id: ObjectId(req.params.id)};
-    db_connect.collection("words").findOne(myquery, (err, obj) => {
-        if(err) throw err;
-        console.log("1 word found")
-        res.json(obj)
-    })
-})
-
+app.get("/word/:id", (req, res) => {
+  let db_connect = dbo.getDb();
+  let myquery = { _id: ObjectId(req.params.id) };
+  db_connect.collection("words").findOne(myquery, (err, obj) => {
+    if (err) throw err;
+    console.log("1 word found");
+    res.json(obj);
+  });
+});
 
 //this helps create a new word
 app.post("/words/add", (req, response) => {
-    console.log(req.body)
-    
-    let db_connect = dbo.getDb();
-    let myobj = {
-        word: req.body.word,
-        definition: req.body.definition,
-    };
-    db_connect.collection("words").insertOne(myobj, (err, res)=>{
-        if (err) throw err;
-        console.log("1 word added")
-        response.json(res)
-    })
+  console.log(req.body);
 
-})
+  let db_connect = dbo.getDb();
+  let myobj = {
+    word: req.body.word,
+    definition: req.body.definition,
+  };
+  db_connect.collection("words").insertOne(myobj, (err, res) => {
+    if (err) throw err;
+    console.log("1 word added");
+    response.json(res);
+  });
+});
 
-app.delete("/words/:id", (req, res) =>{
-  console.log(req.params.id)
-    let db_connect = dbo.getDb();
-    let myquery = {_id: ObjectId(req.params.id)};
-    db_connect.collection("words").deleteOne(myquery, (err, obj) => {
-        if(err) throw err;
-        console.log("1 word deleted")
-        res.json(obj)
-    })
-}) 
+app.delete("/words/:id", (req, res) => {
+  let db_connect = dbo.getDb();
+  let myquery = { _id: ObjectId(req.params.id) };
+  db_connect.collection("words").deleteOne(myquery, (err, obj) => {
+    if (err) throw err;
+    console.log("1 word deleted");
+    res.json(obj);
+  });
+});
+
+app.post("/update-word/:id", (req, response) => {
+  let db_connect = dbo.getDb();
+  let myquery = { _id: ObjectId(req.params.id) };
+  let newvalues = {
+    $set: {
+      word: req.body.word,
+      definition: req.body.definition,
+    },
+  };
+
+  db_connect
+    .collection("words")
+    .updateOne(myquery, newvalues, function (err, res) {
+      if (err) throw err;
+      console.log("1 document updated");
+      response.json(res);
+    });
+});
 
 app.listen(port, () => {
   dbo.connectToServer(function (err) {

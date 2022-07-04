@@ -50,4 +50,14 @@ const getWord = async (newWordId) => {
     console.log(e);
   }
 };
-export { getWords, createWords, deleteWords, getWord };
+
+const updateWord = async (updatedWord) => {
+
+  try {
+    const response = await axios.post(`/update-word/${updatedWord.id}`, updatedWord);
+    return response
+  } catch (e) {
+    console.log(e);
+  }
+}
+export { getWords, createWords, deleteWords, getWord, updateWord };

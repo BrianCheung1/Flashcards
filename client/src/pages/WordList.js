@@ -2,7 +2,6 @@ import React from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
 import "../App.css";
 import {
   getTest,
@@ -10,6 +9,7 @@ import {
   createWords,
   deleteWords,
   getWord,
+  updateWord,
 } from "../api/api";
 import { Cardform } from "../components/Cardform";
 import { Flashcards } from "../components/Flashcards";
@@ -66,9 +66,18 @@ class WordList extends React.Component {
   };
 
   //sets the state of words called by FlashCards component
-  setStateofWordsParentDelete = (wordWords) => {
+  setStateofWordsParentDelete = (newWords) => {
     this.setState({
-      words: wordWords,
+      words: newWords,
+    });
+  };
+
+  setStateOfWordsParentUpdated = (updatedWord) => {
+    updateWord(updatedWord);
+    getWords().then((res) => {
+      this.setState({
+        words: res,
+      });
     });
   };
 
@@ -102,6 +111,11 @@ class WordList extends React.Component {
                   words={this.state.words}
                   wordData={word}
                   setStateOfWordsAfterDelete={this.setStateofWordsParentDelete}
+                  setStateOfWordInParent={this.setStateOfWordParent} //setStateofWordInparent is a prop in Cardform that takes in value from handleWordChange
+                  setStateOfDefinitionInParent={this.setStatOfDefinitionParent} //setStateofDefintionInparent is a prop in Cardform that takes in value from handleDefintionChange
+                  setStateOfWordsInParentUpdated={
+                    this.setStateOfWordsParentUpdated
+                  } //setStateofWordsInParent is a prop in Cardform that take sin value from handleWordsSubmit
                 ></Flashcards>
               );
             })}

@@ -3,6 +3,7 @@ import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import { deleteWords } from "../api/api";
+import Form from "react-bootstrap/Form";
 
 function Flashcards(props) {
   const wordWord = props.word;
@@ -20,7 +21,36 @@ function Flashcards(props) {
     props.setStateOfWordsAfterDelete(wordWords);
   }
 
-  //maps through parent state words and creates a card for every word
+  //changes the word state of the parent class
+  function handleWordChange(word) {
+    props.setStateOfWordInParent(word);
+    setDraftName(word);
+  }
+
+  //changes the definition state of the aprent class
+  function handleDefinitionChange(definition) {
+    props.setStateOfDefinitionInParent(definition);
+    setDraftDefinition(definition);
+  }
+
+  function handleWordsChange(words) {
+    props.setStateOfWordsInParentUpdated(words);
+  }
+
+  //When user clicks sumbit, the word and definition are transfered to to the backend
+  //The backend then transfers it to the database
+  function handleWordsSubmit(e) {
+    let newWords = {
+      id: wordId,
+      word: draftName,
+      definition: draftDefinition,
+    };
+    handleWordsChange(newWords);
+  }
+
+  //Creates a card with word and defintion
+  //Delete button to delete it off the database
+  //Edit button to update the word or defintion and update on database
   function wordList() {
     return (
       //<li key={index}>{word.word}</li>;
@@ -67,14 +97,54 @@ function Flashcards(props) {
           </Card>
         )}
         {isEditing && (
-          <Button
-            variant="link"
-            onClick={() => {
-              setIsEditing(!isEditing);
-            }}
+          <Card
+            style={{ width: "35rem", height: "22rem" }}
+            bg="dark"
+            text="light"
+            border="primary"
+            className="mb-3"
           >
-            Edit
-          </Button>
+            <Card.Header className="border-0 bg-dark FlashcardsWord">
+              <Form.Control
+                type="text"
+                placeholder={draftName}
+                onChange={(e) => {
+                  handleWordChange(e.target.value);
+                }}
+              />
+            </Card.Header>
+            <Card.Body className="FlashcardsDefinition">
+              {/* <Card.Subtitle className="mb-2 text-muted">
+                Card Subtitle
+              </Card.Subtitle> */}
+              <Form.Control
+                type="text"
+                placeholder={draftDefinition}
+                onChange={(e) => {
+                  handleDefinitionChange(e.target.value);
+                }}
+              />
+            </Card.Body>
+            <Card.Footer className="border-0 bg-dark">
+              <Button
+                variant="link"
+                onClick={() => {
+                  setIsEditing(!isEditing);
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                variant="link"
+                onClick={(e) => {
+                  setIsEditing(!isEditing);
+                  handleWordsSubmit(e);
+                }}
+              >
+                Save
+              </Button>
+            </Card.Footer>
+          </Card>
         )}
       </Col>
     );
