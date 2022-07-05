@@ -1,20 +1,15 @@
 import React from "react";
+import { Helmet } from "react-helmet";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import "../App.css";
-import {
-  getTest,
-  getWords,
-  createWords,
-  deleteWords,
-  getWord,
-  updateWord,
-} from "../api/api";
+import { getWords, createWords, getWord, updateWord } from "../api/api";
 import { Cardform } from "../components/Cardform";
 import { Flashcards } from "../components/Flashcards";
 import { Navibar } from "../components/Navbar";
-import axios from "axios";
+import { BsCardText } from "react-icons/bs";
+
 
 class WordList extends React.Component {
   //variables we want to store to mongodb
@@ -85,13 +80,17 @@ class WordList extends React.Component {
 
   render() {
     return (
-      
       <Container fluid className="App">
-        
-        <Navibar/>
+        <Helmet>
+          <title>Flashcards</title>
+          <link rel="icon" type="image/png" href="/public/favicon" sizes="16x16" />
+        </Helmet>
+        <Navibar />
         <Row className="Cardform">
           <Col md={6}>
-            <div className="CardformTitle">Add a card</div>
+            <div className="CardformTitle">
+              Add a card <BsCardText />
+            </div>
             <Cardform
               setStateOfWordInParent={this.setStateOfWordParent} //setStateofWordInparent is a prop in Cardform that takes in value from handleWordChange
               setStateOfDefinitionInParent={this.setStatOfDefinitionParent} //setStateofDefintionInparent is a prop in Cardform that takes in value from handleDefintionChange

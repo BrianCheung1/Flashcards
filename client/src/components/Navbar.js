@@ -13,7 +13,7 @@ function Navibar() {
       className="NavbarBackground"
     >
       <Container fluid>
-        <Navbar.Brand href="/">React-Bootstrap</Navbar.Brand>
+        <Navbar.Brand href="/">Flashlet</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
         <Navbar.Collapse id="responsive-navbar-nav">
           <Nav.Link
