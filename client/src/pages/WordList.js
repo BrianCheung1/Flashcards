@@ -7,15 +7,15 @@ import "../App.css";
 import { getWords, createWords, getWord, updateWord } from "../api/api";
 import { Cardform } from "../components/Cardform";
 import { Flashcards } from "../components/Flashcards";
-import { Navibar } from "../components/Navbar";
+import { Navibar } from "../components/Navibar";
 import { BsCardText } from "react-icons/bs";
-
+import { AiOutlineUnorderedList } from "react-icons/ai";
 
 class WordList extends React.Component {
   //variables we want to store to mongodb
   constructor(props) {
-    let data = [];
     super(props);
+    let data = [];
     this.state = {
       word: "",
       definition: "",
@@ -83,7 +83,12 @@ class WordList extends React.Component {
       <Container fluid className="App">
         <Helmet>
           <title>Flashcards</title>
-          <link rel="icon" type="image/png" href="/public/favicon" sizes="16x16" />
+          <link
+            rel="icon"
+            type="image/png"
+            href="/public/favicon"
+            sizes="16x16"
+          />
         </Helmet>
         <Navibar />
         <Row className="Cardform">
@@ -100,7 +105,9 @@ class WordList extends React.Component {
         </Row>
         <Row>
           <Row>
-            <div className="FlashcardsTitle">Word List</div>
+            <div className="FlashcardsTitle">
+              Word List <AiOutlineUnorderedList />
+            </div>
           </Row>
           <Row className="AllFlashcards" xs="auto" md="auto">
             {this.state.words.map((word) => {

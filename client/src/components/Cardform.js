@@ -57,7 +57,7 @@ function Cardform(props) {
         Create Card
       </Button>
       <ToastContainer position="top-end" className="ToastBackground">
-        <Toast onClose={() => setShow(false)} show={show} delay={3000} autohide>
+        <Toast onClose={() => setShow(false)} show={show} delay={1000} autohide>
           <Toast.Body>Flashcard Created</Toast.Body>
         </Toast>
       </ToastContainer>

@@ -14,7 +14,7 @@
 
 .Cardform {
     padding-top: 80px;
-    padding-bottom: 50px;
+    padding-bottom: 40px;
     justify-content: center;
 }
 
@@ -76,3 +76,9 @@
     padding-top: 60px;
 }
 
+.Login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: yellow;
+}

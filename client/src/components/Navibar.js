@@ -2,8 +2,17 @@ import React from "react";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import Button from "react-bootstrap/Button"
+import { useNavigate } from "react-router-dom";
 
 function Navibar() {
+  let navigate = useNavigate();
+
+  const routeChange = () => {
+    let path = "/login";
+    navigate(path);
+  };
+
   return (
     <Navbar
       collapseOnSelect
@@ -22,6 +31,10 @@ function Navibar() {
           >
             Github
           </Nav.Link>
+
+          <Button variant="link" onClick={routeChange}>
+            Login
+          </Button>
         </Navbar.Collapse>
       </Container>
     </Navbar>
