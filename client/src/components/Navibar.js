@@ -4,6 +4,8 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
+import { FaGithubSquare } from "react-icons/fa"
+import {IoLogInSharp} from "react-icons/io5"
 
 function Navibar() {
   let navigate = useNavigate();
@@ -21,7 +23,7 @@ function Navibar() {
   return (
     <Navbar
       collapseOnSelect
-      expand="lg"
+      expand="md"
       variant="dark"
       fixed="top"
       className="NavbarBackground"
@@ -36,11 +38,11 @@ function Navibar() {
             href="https://github.com/BrianCheung1/Flashcards"
             target="_blank"
           >
-            Github
+            <FaGithubSquare size={25}/>
           </Nav.Link>
 
           <Nav.Link href="#" onClick={goToLogin}>
-            Login
+            <IoLogInSharp size={32}/>
           </Nav.Link>
         </Navbar.Collapse>
       </Container>
