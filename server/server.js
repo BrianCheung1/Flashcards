@@ -12,8 +12,14 @@ const ObjectId = require("mongodb").ObjectId;
 
 // create a test GET route
 app.get("/test", (req, res) => {
-  console.log("GET /test");
-  res.send({ express: "HI ITS YOUR BACKEND" });
+  let db_connect = dbo.getDb("words");
+  db_connect
+    .collection("users")
+    .find()
+    .toArray(function (err, result) {
+      if (err) throw err;
+      res.json(result);
+    });
 });
 
 // Json list of the mongodb
@@ -80,6 +86,33 @@ app.post("/update-word/:id", (req, response) => {
       if (err) throw err;
       console.log("1 document updated");
       response.json(res);
+    });
+});
+
+//store new user into database
+app.post("/register", (req, response) => {
+  let db_connect = dbo.getDb();
+  let myobj = {
+    username: req.body.username,
+    password: req.body.password,
+  };
+  db_connect.collection("users").insertOne(myobj, (err, res) => {
+    if (err) throw err;
+    console.log("1 user added");
+    response.json(res);
+  });
+});
+
+//get user info from database
+app.get("/login", (req, res) => {
+  let db_connect = dbo.getDb();
+  db_connect
+    .collection("users")
+    .find({ username: req.query.username })
+    .toArray((err, docs) => {
+      docs.forEach((element) => {
+        res.send(element);
+      });
     });
 });
 
