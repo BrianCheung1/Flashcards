@@ -5,16 +5,11 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useNavigate } from "react-router-dom";
 
-function LoginForm() {
+function RegisterForm() {
   let navigate = useNavigate();
 
-  const routeHome = () => {
+  const routeChange = () => {
     let path = "/";
-    navigate(path);
-  };
-
-  const routeRegister = () => {
-    let path = "/Register";
     navigate(path);
   };
 
@@ -24,7 +19,9 @@ function LoginForm() {
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
           <Form.Control type="text" placeholder="Enter email" />
-          <Form.Text className="text-muted"></Form.Text>
+          <Form.Text className="text-muted">
+            We'll never share your email with anyone else.
+          </Form.Text>
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -33,12 +30,7 @@ function LoginForm() {
         </Form.Group>
         <Row xs="auto" md="auto">
           <Col>
-            <Button variant="primary" type="submit" onClick={routeHome}>
-              Login
-            </Button>
-          </Col>
-          <Col>
-            <Button variant="primary" type="submit" onClick={routeRegister}>
+            <Button variant="primary" type="submit" onClick={routeChange}>
               Register
             </Button>
           </Col>
@@ -47,4 +39,4 @@ function LoginForm() {
     </Col>
   );
 }
-export { LoginForm };
+export { RegisterForm };

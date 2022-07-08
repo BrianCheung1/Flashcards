@@ -2,9 +2,9 @@ import React from "react";
 import Container from "react-bootstrap/Container";
 import { Helmet } from "react-helmet";
 import { Navibar } from "../components/Navibar";
-import { LoginForm } from "../components/LoginForm";
+import { RegisterForm } from "../components/RegisterForm";
 
-class Login extends React.Component {
+class Register extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -13,10 +13,11 @@ class Login extends React.Component {
     return (
       <Container fluid className="App Login">
         <Navibar />
-        <LoginForm />
+
+        <RegisterForm />
       </Container>
     );
   }
 }
 
-export default Login;
+export default Register;
