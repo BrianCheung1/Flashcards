@@ -51,6 +51,7 @@ const getWord = async (newWordId) => {
   }
 };
 
+//front end api to update a word in the database
 const updateWord = async (updatedWord) => {
   try {
     const response = await axios.post(
@@ -62,4 +63,31 @@ const updateWord = async (updatedWord) => {
     console.log(e);
   }
 };
-export { getWords, createWords, deleteWords, getWord, updateWord };
+
+//front end api to add a user/pass to database
+const registerUser = async (user) => {
+  try {
+    const response = await axios.post("/register", user);
+    return response;
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+const loginUser = async (user) => {
+  try {
+    const response = await axios.get("/login-user", { params: user });
+    return response;
+  } catch (e) {
+    console.log("error", e);
+  }
+};
+export {
+  getWords,
+  createWords,
+  deleteWords,
+  getWord,
+  updateWord,
+  registerUser,
+  loginUser,
+};

@@ -104,16 +104,25 @@ app.post("/register", (req, response) => {
 });
 
 //get user info from database
-app.get("/login", (req, res) => {
+app.get("/login-user", async (req, res) => {
   let db_connect = dbo.getDb();
-  db_connect
-    .collection("users")
-    .find({ username: req.query.username })
-    .toArray((err, docs) => {
-      docs.forEach((element) => {
-        res.send(element);
+  let data = await db_connect.collection("users").count({
+    username: req.query.username,
+  });
+
+  if (data == 0) {
+    res.sendStatus(404);
+  } else {
+    db_connect
+      .collection("users")
+      .find({ username: req.query.username })
+      .toArray((err, docs) => {
+        if (err) throw (err);
+        docs.map((element) => {
+          res.send(element);
+        });
       });
-    });
+  }
 });
 
 app.listen(port, () => {
