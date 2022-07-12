@@ -1,4 +1,5 @@
 import axios from "axios";
+var bcrypt = require("bcryptjs");
 
 //Test to see if we can connect to backend server
 // const getTest = async() => {
@@ -77,9 +78,10 @@ const registerUser = async (user) => {
 const loginUser = async (user) => {
   try {
     const response = await axios.get("/login-user", { params: user });
-    return response;
+    let match = bcrypt.compareSync(user.password, response.data.password);
+    return(match)
   } catch (e) {
-    console.log("error", e);
+    console.log("test", e);
   }
 };
 export {

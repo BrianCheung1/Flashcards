@@ -5,6 +5,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Toast from "react-bootstrap/Toast";
 import ToastContainer from "react-bootstrap/ToastContainer";
+import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
 import { registerUser } from "../api/api";
 var bcrypt = require("bcryptjs");
@@ -12,7 +13,9 @@ var bcrypt = require("bcryptjs");
 function RegisterForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [password2, setPassword2] = useState("");
   const [show, setShow] = useState(false);
+  const [modalShow, setModalShow] = useState(false);
 
   var salt = bcrypt.genSaltSync(10);
   let navigate = useNavigate();
@@ -22,6 +25,25 @@ function RegisterForm() {
     navigate(path);
   };
 
+  function MyVerticallyCenteredModal(props) {
+    return (
+      <Modal
+        {...props}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Passwords do not match. Please try again.
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Footer>
+          <Button onClick={props.onHide}>Try Again</Button>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+
   function handleWordsSubmit(e) {
     var hash = bcrypt.hashSync(password, salt);
 
@@ -30,9 +52,13 @@ function RegisterForm() {
       username: username,
       password: hash,
     };
-    registerUser(user);
-    e.target.reset();
-    setShow(true);
+    if (password != password2) {
+      setModalShow(true);
+    } else {
+      registerUser(user);
+      e.target.reset();
+      setShow(true);
+    }
   }
 
   return (
@@ -65,16 +91,16 @@ function RegisterForm() {
             Passwords are encrypted before being saved
           </Form.Text>
         </Form.Group>
-        {/* <Form.Group className="mb-3" controlId="formBasicPassword">
+        <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Confirm Password</Form.Label>
           <Form.Control
             type="password"
             placeholder="Confirm Password"
             onChange={(e) => {
-              setPassword(e.target.value);
+              setPassword2(e.target.value);
             }}
           />
-        </Form.Group> */}
+        </Form.Group>
         <Row xs="auto" md="auto">
           <Col>
             <Button variant="primary" type="submit" onClick={routeLogin}>
@@ -94,6 +120,10 @@ function RegisterForm() {
           <Toast.Body>Please Login</Toast.Body>
         </Toast>
       </ToastContainer>
+      <MyVerticallyCenteredModal
+        show={modalShow}
+        onHide={() => setModalShow(false)}
+      />
     </Col>
   );
 }
