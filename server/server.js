@@ -110,19 +110,18 @@ app.get("/login-user", async (req, res) => {
     username: req.query.username,
   });
 
-  if (data == 0) {
-    res.sendStatus(404);
-  } else {
-    db_connect
-      .collection("users")
-      .find({ username: req.query.username })
-      .toArray((err, docs) => {
-        if (err) throw (err);
+  db_connect
+    .collection("users")
+    .find({ username: req.query.username })
+    .toArray((err, docs) => {
+      if (err) {
+        throw err;
+      } else {
         docs.map((element) => {
           res.send(element);
         });
-      });
-  }
+      }
+    });
 });
 
 app.listen(port, () => {

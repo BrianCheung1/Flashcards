@@ -16,7 +16,7 @@ function Navibar() {
   };
 
   const goToHome = () => {
-    let path = "/";
+    let path = "/login";
     navigate(path);
   };
 

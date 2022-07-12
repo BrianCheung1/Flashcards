@@ -7,7 +7,6 @@ import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../api/api";
 
-
 function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -21,7 +20,7 @@ function LoginForm() {
   let navigate = useNavigate();
 
   const routeHome = () => {
-    let path = "/";
+    let path = "/home";
     navigate(path);
   };
 

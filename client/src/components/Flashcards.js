@@ -106,7 +106,7 @@ function Flashcards(props) {
             <Card.Header className="border-0 bg-dark FlashcardsWord">
               <Form.Control
                 type="text"
-                placeholder={draftName}
+                defaultValue={draftName}
                 onChange={(e) => {
                   handleWordChange(e.target.value);
                 }}
@@ -119,7 +119,7 @@ function Flashcards(props) {
               <Form.Control
                 as="textarea"
                 rows={5}
-                placeholder={draftDefinition}
+                defaultValue={draftDefinition}
                 onChange={(e) => {
                   handleDefinitionChange(e.target.value);
                 }}
