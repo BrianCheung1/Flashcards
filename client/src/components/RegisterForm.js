@@ -69,6 +69,7 @@ function RegisterForm() {
           <Form.Control
             type="text"
             placeholder="Enter email"
+            required
             onChange={(e) => {
               setUsername(e.target.value);
             }}
@@ -83,6 +84,7 @@ function RegisterForm() {
           <Form.Control
             type="password"
             placeholder="Password"
+            required
             onChange={(e) => {
               setPassword(e.target.value);
             }}
@@ -96,6 +98,7 @@ function RegisterForm() {
           <Form.Control
             type="password"
             placeholder="Confirm Password"
+            required
             onChange={(e) => {
               setPassword2(e.target.value);
             }}
