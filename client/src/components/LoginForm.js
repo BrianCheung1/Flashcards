@@ -11,11 +11,7 @@ function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [modalShow, setModalShow] = useState(false);
-
-  // useEffect(() => {
-  //   //setMatch(bcrypt.compareSync(password, hash));
-  //   console.log(match)
-  // }, [hash]);
+  const [currentSessionId, setCurrentSessionId] = useState("");
 
   let navigate = useNavigate();
 
@@ -54,9 +50,9 @@ function LoginForm() {
       username: username,
       password: password,
     };
-
     loginUser(user).then((res) => {
-      if (res == true) {
+      if (res.match == true) {
+        setCurrentSessionId(res.setCurrentSessionId);
         routeHome();
       } else {
         setModalShow(true);

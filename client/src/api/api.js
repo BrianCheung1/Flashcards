@@ -79,11 +79,30 @@ const loginUser = async (user) => {
   try {
     const response = await axios.get("/login-user", { params: user });
     let match = bcrypt.compareSync(user.password, response.data.password);
-    return(match)
+    let currentSessionId;
+    if (match) {
+      if (localStorage.getItem("session_id")) {
+        currentSessionId = localStorage.getItem("session_id");
+      } else {
+        localStorage.setItem(
+          "session_id",
+          Math.floor(Math.random() * 100000).toString()
+        );
+        currentSessionId = localStorage.getItem("session_id");
+      }
+    }
+
+    let info = {
+      match: bcrypt.compareSync(user.password, response.data.password),
+      currentSessionId: currentSessionId,
+    };
+
+    return info;
   } catch (e) {
     console.log("test", e);
   }
 };
+
 export {
   getWords,
   createWords,

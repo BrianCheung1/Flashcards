@@ -10,6 +10,7 @@ import { Flashcards } from "../components/Flashcards";
 import { Navibar } from "../components/Navibar";
 import { BsCardText } from "react-icons/bs";
 import { AiOutlineUnorderedList } from "react-icons/ai";
+import { Navigate } from "react-router-dom";
 
 class WordList extends React.Component {
   //variables we want to store to mongodb
@@ -121,7 +122,7 @@ class WordList extends React.Component {
                   wordData={word}
                   setStateOfWordsAfterDelete={this.setStateofWordsParentDelete}
                   setStateOfWordInParent={this.setStateOfWordParent} //setStateofWordInparent is a prop in Cardform that takes in value from handleWordChange
-                  setStateOfDefinitionInParent={this.setStatOfDefinitionParent} //setStateofDefintionInparent is a prop in Cardform that takes in value from handleDefintionChange
+                  setStateOfDefinitionInParent={this.setStatOfDefinitionParent} //setStateofDefinitionInparent is a prop in Cardform that takes in value from handleDefinitionChange
                   setStateOfWordsInParentUpdated={
                     this.setStateOfWordsParentUpdated
                   } //setStateofWordsInParent is a prop in Cardform that take sin value from handleWordsSubmit

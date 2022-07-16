@@ -27,7 +27,7 @@ function Flashcards(props) {
     setDraftName(word);
   }
 
-  //changes the definition state of the aprent class
+  //changes the definition state of the parent class
   function handleDefinitionChange(definition) {
     props.setStateOfDefinitionInParent(definition);
     setDraftDefinition(definition);
@@ -37,7 +37,7 @@ function Flashcards(props) {
     props.setStateOfWordsInParentUpdated(words, wordData);
   }
 
-  //When user clicks sumbit, the word and definition are transfered to to the backend
+  //When user clicks submit, the word and definition are transferred to to the backend
   //The backend then transfers it to the database
   function handleWordsSubmit(e) {
     let newWords = {
@@ -48,9 +48,9 @@ function Flashcards(props) {
     handleWordsChange(newWords);
   }
 
-  //Creates a card with word and defintion
+  //Creates a card with word and definition
   //Delete button to delete it off the database
-  //Edit button to update the word or defintion and update on database
+  //Edit button to update the word or definition and update on database
   function wordList() {
     return (
       //<li key={index}>{word.word}</li>;

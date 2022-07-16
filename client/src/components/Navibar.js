@@ -12,12 +12,23 @@ function Navibar() {
 
   const goToLogin = () => {
     let path = "/login";
-    navigate(path);
+    if (localStorage.getItem("session_id")) {
+      localStorage.removeItem("session_id");
+      navigate(path);
+    } else {
+      navigate(path);
+    }
   };
 
   const goToHome = () => {
     let path = "/login";
-    navigate(path);
+    if (localStorage.getItem("session_id")) {
+      path = "/home";
+      navigate(path);
+    } else {
+      path = "/login";
+      navigate(path);
+    }
   };
 
   return (

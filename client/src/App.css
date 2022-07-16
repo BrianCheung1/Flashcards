@@ -35,7 +35,7 @@
 }
 
 .FlashcardsWord {
-    /*change min height of card header so overflow doesnt affect smaller words*/
+    /*change min height of card header so overflow doesn't affect smaller words*/
     display: flex;
     align-items: center;
     justify-content: center;
@@ -52,7 +52,7 @@
     align-items: center;
     font-size: 20px;
 
-    /*if defintion is larger than card size add scroll*/
+    /*if definition is larger than card size add scroll*/
     word-break: break-all;
     overflow: auto;
     min-height: 80px;
