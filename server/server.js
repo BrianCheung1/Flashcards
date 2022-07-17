@@ -9,21 +9,22 @@ app.use(express.json());
 const dbo = require("./db/conn");
 // This help convert the id from string to ObjectId for the _id.
 const ObjectId = require("mongodb").ObjectId;
+const jwtAuth = require("./middleware/jwtAuth");
 
 // create a test GET route
-app.get("/test", (req, res) => {
-  let db_connect = dbo.getDb("words");
-  db_connect
-    .collection("users")
-    .find()
-    .toArray(function (err, result) {
-      if (err) throw err;
-      res.json(result);
-    });
-});
+// app.get("/test", (req, res) => {
+//   let db_connect = dbo.getDb("words");
+//   db_connect
+//     .collection("users")
+//     .find()
+//     .toArray(function (err, result) {
+//       if (err) throw err;
+//       res.json(result);
+//     });
+// });
 
 // Json list of the mongodb
-app.get("/words", (req, res) => {
+app.get("/words", jwtAuth.authenticateToken, (req, res) => {
   let db_connect = dbo.getDb("words");
   db_connect
     .collection("words")
@@ -34,7 +35,7 @@ app.get("/words", (req, res) => {
     });
 });
 
-app.get("/word/:id", (req, res) => {
+app.get("/word/:id", jwtAuth.authenticateToken, (req, res) => {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId(req.params.id) };
   db_connect.collection("words").findOne(myquery, (err, obj) => {
@@ -45,7 +46,7 @@ app.get("/word/:id", (req, res) => {
 });
 
 //this helps create a new word
-app.post("/words/add", (req, response) => {
+app.post("/words/add", jwtAuth.authenticateToken, (req, response) => {
   console.log(req.body);
 
   let db_connect = dbo.getDb();
@@ -60,7 +61,7 @@ app.post("/words/add", (req, response) => {
   });
 });
 
-app.delete("/words/:id", (req, res) => {
+app.delete("/words/:id", jwtAuth.authenticateToken, (req, res) => {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId(req.params.id) };
   db_connect.collection("words").deleteOne(myquery, (err, obj) => {
@@ -70,7 +71,7 @@ app.delete("/words/:id", (req, res) => {
   });
 });
 
-app.post("/update-word/:id", (req, response) => {
+app.post("/update-word/:id", jwtAuth.authenticateToken, (req, response) => {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId(req.params.id) };
   let newvalues = {
@@ -114,13 +115,15 @@ app.get("/login-user", async (req, res) => {
         throw err;
       } else {
         docs.map((element) => {
+          const token = jwtAuth.generateAccessToken(req.query.username);
+          res.cookie("token", token, { path: "/" });
           res.send(element);
         });
       }
     });
 });
 
-app.get("/user/:id", async (req, res) => {
+app.get("/user/:id", jwtAuth.authenticateToken, async (req, res) => {
   let db_connect = dbo.getDb();
   let myquery = { _id: ObjectId(req.params.id) };
   let count = await db_connect.collection("users").count(myquery);

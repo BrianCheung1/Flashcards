@@ -9,15 +9,17 @@ const ProtectedRoutes = () => {
   let navigate = useNavigate();
   //const isAuth = useAuth();
   let user = { loggedIn: localStorage.getItem("session_id") };
-  if (user.loggedIn.length < 12) {
-    return <Navigate to replace={"/login"} />;
-  } else {
-    checkUser(user.loggedIn).then((res) => {
-      if (res.data == false) {
-        navigate("/login");
-      }
-    });
+  if (!user.loggedIn) {
+    return <Navigate replace to={"/login"} />;
+  } else if (user.loggedIn.length < 12) {
+    return <Navigate replace to={"/login"} />;
   }
+  checkUser(user.loggedIn).then((res) => {
+    if (res.data == false) {
+      navigate("/login");
+    }
+  });
+
   return <Outlet />;
 };
 
