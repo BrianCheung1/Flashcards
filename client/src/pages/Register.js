@@ -13,7 +13,6 @@ class Register extends React.Component {
     return (
       <Container fluid className="App Login">
         <Navibar />
-
         <RegisterForm />
       </Container>
     );

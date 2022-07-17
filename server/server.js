@@ -106,10 +106,6 @@ app.post("/register", (req, response) => {
 //get user info from database
 app.get("/login-user", async (req, res) => {
   let db_connect = dbo.getDb();
-  let data = await db_connect.collection("users").count({
-    username: req.query.username,
-  });
-
   db_connect
     .collection("users")
     .find({ username: req.query.username })
@@ -122,6 +118,17 @@ app.get("/login-user", async (req, res) => {
         });
       }
     });
+});
+
+app.get("/user/:id", async (req, res) => {
+  let db_connect = dbo.getDb();
+  let myquery = { _id: ObjectId(req.params.id) };
+  let count = await db_connect.collection("users").count(myquery);
+  if (count > 0) {
+    res.send(true);
+  } else {
+    res.send(false);
+  }
 });
 
 app.listen(port, () => {
