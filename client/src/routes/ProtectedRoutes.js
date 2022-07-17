@@ -15,9 +15,7 @@ const ProtectedRoutes = () => {
     return <Navigate replace to={"/login"} />;
   }
   checkUser(user.loggedIn).then((res) => {
-    if (res.data == false) {
-      navigate("/login");
-    }
+    console.log(res)
   });
 
   return <Outlet />;

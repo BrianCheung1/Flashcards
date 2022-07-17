@@ -82,10 +82,10 @@ const loginUser = async (user) => {
     let currentSessionId;
     if (match) {
       if (localStorage.getItem("session_id")) {
-        localStorage.setItem("session_id", response.data._id);
+        localStorage.setItem("session_id", response.data.token);
         currentSessionId = localStorage.getItem("session_id");
       } else {
-        localStorage.setItem("session_id", response.data._id);
+        localStorage.setItem("session_id", response.data.token);
         currentSessionId = localStorage.getItem("session_id");
       }
     }
@@ -102,9 +102,9 @@ const loginUser = async (user) => {
 const checkUser = async (user) => {
   try {
     const response = await axios.get(`/user/${user}`);
-    return response
+    return response;
   } catch (e) {
-    return 
+    console.log("checking user", e)
   }
 };
 export {
@@ -115,5 +115,5 @@ export {
   updateWord,
   registerUser,
   loginUser,
-  checkUser
+  checkUser,
 };

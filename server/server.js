@@ -93,9 +93,12 @@ app.post("/update-word/:id", jwtAuth.authenticateToken, (req, response) => {
 //store new user into database
 app.post("/register", (req, response) => {
   let db_connect = dbo.getDb();
+  const token = jwtAuth.generateAccessToken(req.body.username);
+  response.cookie("token", token, { path: "/" });
   let myobj = {
     username: req.body.username,
     password: req.body.password,
+    token: token,
   };
   db_connect.collection("users").insertOne(myobj, (err, res) => {
     if (err) throw err;
@@ -107,30 +110,46 @@ app.post("/register", (req, response) => {
 //get user info from database
 app.get("/login-user", async (req, res) => {
   let db_connect = dbo.getDb();
-  db_connect
+  console.log(req.query);
+  let user = await db_connect
     .collection("users")
-    .find({ username: req.query.username })
-    .toArray((err, docs) => {
-      if (err) {
-        throw err;
-      } else {
-        docs.map((element) => {
-          const token = jwtAuth.generateAccessToken(req.query.username);
-          res.cookie("token", token, { path: "/" });
-          res.send(element);
-        });
-      }
-    });
+    .findOne({ username: req.query.username });
+
+  if (user === null || !user.password)
+    return res.status(401).send({ message: "Incorrect username/password" });
+
+  const token = jwtAuth.generateAccessToken(req.query.username);
+  res.cookie("token", token, { path: "/" });
+  const finalResult = Object.assign(user, { token });
+  console.log(finalResult);
+  res.send(finalResult);
+  // db_connect
+  //   .collection("users")
+  //   .find({ username: req.query.username })
+  //   .toArray((err, docs) => {
+  //     if (err) {
+  //       throw err;
+  //     } else {
+  //       docs.map((element) => {
+  //         console.log(element)
+  //         const token = jwtAuth.generateAccessToken(req.query.username);
+  //         res.cookie("token", token, { path: "/" });
+  //         res.send(element);
+  //       });
+  //     }
+  //   });
 });
 
 app.get("/user/:id", jwtAuth.authenticateToken, async (req, res) => {
   let db_connect = dbo.getDb();
-  let myquery = { _id: ObjectId(req.params.id) };
-  let count = await db_connect.collection("users").count(myquery);
-  if (count > 0) {
-    res.send(true);
+  let user = await db_connect
+    .collection("users")
+    .findOne({ token: req.params.id });
+
+  if (user == null || !user.password) {
+    return res.status(404).send({ message: "Incorrect username/password" });
   } else {
-    res.send(false);
+    res.send(true);
   }
 });
 

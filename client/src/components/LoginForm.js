@@ -51,11 +51,11 @@ function LoginForm() {
       password: password,
     };
     loginUser(user).then((res) => {
-      if (res.match == true) {
-        setCurrentSessionId(res.setCurrentSessionId);
-        routeHome();
-      } else {
+      if (!res || !res.match) {
         setModalShow(true);
+      } else {
+        setCurrentSessionId(res.CurrentSessionId);
+        routeHome();
       }
     });
   }
