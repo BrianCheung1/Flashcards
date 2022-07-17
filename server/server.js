@@ -10,6 +10,7 @@ const dbo = require("./db/conn");
 // This help convert the id from string to ObjectId for the _id.
 const ObjectId = require("mongodb").ObjectId;
 const jwtAuth = require("./middleware/jwtAuth");
+const bcrypt = require("bcrypt");
 
 // create a test GET route
 // app.get("/test", (req, res) => {
@@ -110,7 +111,6 @@ app.post("/register", (req, response) => {
 //get user info from database
 app.get("/login-user", async (req, res) => {
   let db_connect = dbo.getDb();
-  console.log(req.query);
   let user = await db_connect
     .collection("users")
     .findOne({ username: req.query.username });
@@ -121,7 +121,6 @@ app.get("/login-user", async (req, res) => {
   const token = jwtAuth.generateAccessToken(req.query.username);
   res.cookie("token", token, { path: "/" });
   const finalResult = Object.assign(user, { token });
-  console.log(finalResult);
   res.send(finalResult);
   // db_connect
   //   .collection("users")
@@ -147,7 +146,7 @@ app.get("/user/:id", jwtAuth.authenticateToken, async (req, res) => {
     .findOne({ token: req.params.id });
 
   if (user == null || !user.password) {
-    return res.status(404).send({ message: "Incorrect username/password" });
+    res.send(false);
   } else {
     res.send(true);
   }

@@ -1,10 +1,6 @@
 import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import { checkUser } from "../api/api";
 
-const useAuth = () => {
-  let user = { loggedIn: localStorage.getItem("session_id") };
-};
-
 const ProtectedRoutes = () => {
   let navigate = useNavigate();
   //const isAuth = useAuth();
@@ -15,7 +11,9 @@ const ProtectedRoutes = () => {
     return <Navigate replace to={"/login"} />;
   }
   checkUser(user.loggedIn).then((res) => {
-    console.log(res)
+    if (res.data == false) {
+      navigate("/login");
+    }
   });
 
   return <Outlet />;

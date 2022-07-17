@@ -27,6 +27,9 @@ async function authenticateResetToken(req, res, next) {
 }
 
 function authenticateToken(req, res, next) {
+  if (!req.headers.cookie) {
+    return res.status(401).send({ message: "Undefined JWT token" });
+  }
   const token = req.headers.cookie.replace("token=", "");
   if (token === undefined)
     return res.status(401).send({ message: "Undefined JWT token" });
