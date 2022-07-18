@@ -104,7 +104,7 @@ const checkUser = async (user) => {
     const response = await axios.get(`/user/${user}`);
     return response;
   } catch (e) {
-    console.log("checking user", e)
+    console.log("checking user", e);
   }
 };
 export {

@@ -11,6 +11,7 @@ import { Navibar } from "../components/Navibar";
 import { BsCardText } from "react-icons/bs";
 import { AiOutlineUnorderedList } from "react-icons/ai";
 import { Navigate } from "react-router-dom";
+import axios from "axios";
 
 class WordList extends React.Component {
   //variables we want to store to mongodb

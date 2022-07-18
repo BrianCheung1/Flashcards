@@ -3,6 +3,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Toast from "react-bootstrap/Toast";
 import ToastContainer from "react-bootstrap/ToastContainer";
+import axios from "axios";
 
 function Cardform(props) {
   const [show, setShow] = useState(false);
@@ -22,6 +23,8 @@ function Cardform(props) {
       definition: testDef,
     };
     handleWordsChange(newWords);
+    console.log("test")
+    axios.post("/add", newWords);
     setTestWord("");
     setTestDef("");
     e.target.reset();

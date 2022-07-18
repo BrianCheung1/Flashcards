@@ -10,7 +10,6 @@ const dbo = require("./db/conn");
 // This help convert the id from string to ObjectId for the _id.
 const ObjectId = require("mongodb").ObjectId;
 const jwtAuth = require("./middleware/jwtAuth");
-const bcrypt = require("bcrypt");
 
 // create a test GET route
 // app.get("/test", (req, res) => {
@@ -95,7 +94,7 @@ app.post("/update-word/:id", jwtAuth.authenticateToken, (req, response) => {
 app.post("/register", (req, response) => {
   let db_connect = dbo.getDb();
   const token = jwtAuth.generateAccessToken(req.body.username);
-  response.cookie("token", token, { path: "/" });
+  response.cookie("token", token, { httpOnly: true });
   let myobj = {
     username: req.body.username,
     password: req.body.password,
@@ -119,24 +118,9 @@ app.get("/login-user", async (req, res) => {
     return res.status(401).send({ message: "Incorrect username/password" });
 
   const token = jwtAuth.generateAccessToken(req.query.username);
-  res.cookie("token", token, { path: "/" });
+  res.cookie("token", token, { httpOnly: true });
   const finalResult = Object.assign(user, { token });
   res.send(finalResult);
-  // db_connect
-  //   .collection("users")
-  //   .find({ username: req.query.username })
-  //   .toArray((err, docs) => {
-  //     if (err) {
-  //       throw err;
-  //     } else {
-  //       docs.map((element) => {
-  //         console.log(element)
-  //         const token = jwtAuth.generateAccessToken(req.query.username);
-  //         res.cookie("token", token, { path: "/" });
-  //         res.send(element);
-  //       });
-  //     }
-  //   });
 });
 
 app.get("/user/:id", jwtAuth.authenticateToken, async (req, res) => {
@@ -150,6 +134,22 @@ app.get("/user/:id", jwtAuth.authenticateToken, async (req, res) => {
   } else {
     res.send(true);
   }
+});
+
+app.post("/add", jwtAuth.authenticateToken, async (req, res) => {
+  if (!req.headers.cookie) {
+    return res.status(401).send({ message: "Undefined JWT token" });
+  }
+  console.log(req.body);
+  let word = req.body.word;
+  let definition = req.body.definition;
+  let test = `words.${word}`;
+
+  const token = req.headers.cookie.replace("token=", "");
+  let db_connect = dbo.getDb();
+  let user = await db_connect
+    .collection("users")
+    .updateOne({ token: token }, { $set: { [test]: definition } });
 });
 
 app.listen(port, () => {

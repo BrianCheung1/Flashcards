@@ -6,6 +6,7 @@ import Col from "react-bootstrap/Col";
 import Modal from "react-bootstrap/Modal";
 import { useNavigate } from "react-router-dom";
 import { loginUser } from "../api/api";
+import axios from "axios";
 
 function LoginForm() {
   const [username, setUsername] = useState("");

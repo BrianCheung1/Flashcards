@@ -1,7 +1,8 @@
 const jwt = require("jsonwebtoken");
 
 function generateAccessToken(data) {
-  return jwt.sign(data, process.env.TOKEN_SECRET, {});
+  let token = jwt.sign(data, process.env.TOKEN_SECRET, {});
+  return token;
 }
 
 function generateResetToken(data) {
@@ -10,7 +11,6 @@ function generateResetToken(data) {
 
 async function authenticateResetToken(req, res, next) {
   const { token } = req.body;
-  console.log(token);
 
   if (token === undefined)
     return res.status(401).send({ message: "Undefined JWT token" });
